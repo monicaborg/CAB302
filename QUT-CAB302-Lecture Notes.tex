@@ -18,6 +18,7 @@
 \tcbuselibrary{listingsutf8}
 \definecolor{mintgreen}{rgb}{0.95,1,0.95} % soft green to match Pastie
 \newcommand{\codecmd}[1]{\textcolor[rgb]{0,0.5,0}{\texttt{#1}}}
+\usepackage{float}
 
 % Header and footer
 % ! Unit name
@@ -1020,9 +1021,7 @@ git remote add origin https://github.com/yourusername/your-repositoryname
 
 \noindent Once added, the remote repository can be referenced using \codecmd{origin} in future commands such as \codecmd{git push origin main} or \codecmd{git pull origin main}. This configuration only needs to be performed once.
 
-\subsection{JavaFx \& the Graphical User Interface }
-
-\subsection{JavaFX and CRUD Application Development}
+\subsection{JavaFX \& CRUD Application Development}
 
 JavaFX is a set of Java libraries designed to support modern graphical user interface (GUI) development. It enables the creation of desktop applications with structured UI design, CSS-based styling, and event-driven control through Java code. JavaFX projects typically separate layout, behaviour, and appearance using FXML, controller classes, and stylesheets.
 
@@ -1399,6 +1398,240 @@ public class LineChartExample extends Application {
 \end{minted}
 
 This example creates a line chart with two numerical axes and plots a single data series. The chart is displayed in a JavaFX \codecmd{Stage} using a \codecmd{VBox} layout.
+
+\subsection{JavaFX Layout Panes}
+
+JavaFX provides several layout containers (panes) to help structure and organise components in a user interface. Each pane arranges child nodes according to a specific layout strategy. Below are examples of common layout panes:
+
+\paragraph{\textbf{VBox}}
+
+A vertical box layout. Arranges elements from top to bottom.
+\begin{minted}[fontsize=\small]{java}
+VBox vbox = new VBox(10); // spacing of 10 pixels
+vbox.getChildren().addAll(new Button("One"), new Button("Two"));
+\end{minted}
+
+\paragraph{\textbf{HBox}}
+
+A horizontal box layout. Arranges elements from left to right.
+\begin{minted}[fontsize=\small]{java}
+HBox hbox = new HBox(10);
+hbox.getChildren().addAll(new Label("Name:"), new TextField());
+\end{minted}
+
+\paragraph{\textbf{Tile Pane}}
+
+Places components in uniformly sized tiles.
+\begin{minted}[fontsize=\small]{java}
+TilePane tile = new TilePane();
+tile.getChildren().addAll(new Button("A"), new Button("B"), new Button("C"));
+\end{minted}
+
+\paragraph{\textbf{Grid Pane}}
+
+Lays out components in a flexible grid of rows and columns.
+\begin{minted}[fontsize=\small]{java}
+GridPane grid = new GridPane();
+grid.add(new Label("Username:"), 0, 0);
+grid.add(new TextField(), 1, 0);
+\end{minted}
+
+\paragraph{\textbf{Border Pane}}
+
+Divides space into five regions: top, bottom, left, right, and center.
+\begin{minted}[fontsize=\small]{java}
+BorderPane border = new BorderPane();
+border.setTop(new Label("Header"));
+border.setCenter(new TextArea());
+\end{minted}
+
+\paragraph{\textbf{Flow Pane}}
+
+Lays out children in a flow that wraps at the boundary.
+\begin{minted}[fontsize=\small]{java}
+FlowPane flow = new FlowPane();
+flow.getChildren().addAll(new Button("One"), new Button("Two"), new Button("Three"));
+\end{minted}
+
+\paragraph{\textbf{Stack Pane}}
+
+Stacks children on top of each other.
+\begin{minted}[fontsize=\small]{java}
+StackPane stack = new StackPane();
+stack.getChildren().addAll(new Rectangle(100, 100), new Label("Overlay"));
+\end{minted}
+
+\paragraph{\textbf{Anchor Pane}}
+
+Positions children at fixed distances from the pane's edges.
+\begin{minted}[fontsize=\small]{java}
+AnchorPane anchor = new AnchorPane();
+Button btn = new Button("Anchored");
+AnchorPane.setTopAnchor(btn, 10.0);
+AnchorPane.setLeftAnchor(btn, 20.0);
+anchor.getChildren().add(btn);
+\end{minted}
+
+\subsection{WYSIWYG Editors and Scene Builder}
+
+\textbf{WYSIWYG} stands for \textit{What You See Is What You Get}. These tools allow users to manipulate content visually, rather than writing code directly. A common example outside programming is WordPress.
+
+WYSIWYG editors are useful for beginners, as they reduce the barrier to entry by allowing intuitive drag-and-drop design. However, they often limit fine-grained control or introduce complexity when making specific changes without accessing the underlying code.
+
+\medskip
+\textbf{Scene Builder} is a popular WYSIWYG editor for constructing JavaFX graphical user interfaces. It enables the visual arrangement of nodes and layout panes, generating the corresponding FXML file automatically.
+
+\begin{itemize}
+    \item Scene Builder must be installed and configured separately.
+    \item The Week 4 Practical focuses on writing and manipulating FXML directly without using Scene Builder.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{scene-builder.png}
+    \caption{Scene Builder WYSIWYG Interface in IntelliJ IDEA}
+\end{figure}
+
+\subsection{Fidelity in Prototyping}
+
+Prototyping in software and interface design is a crucial step in conceptualising, evaluating, and iterating on design ideas. Prototypes can vary in fidelity depending on their purpose, ranging from rough sketches to polished interfaces.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.9\linewidth]{11.jpg}
+\caption{Example of different prototype fidelity levels}
+\label{fig:prototype-fidelity}
+\end{figure}
+
+\subsubsection{Low-Fidelity Prototypes}
+
+Low-fidelity (lo-fi) prototypes are quick, inexpensive representations of design concepts, often created during the early stages of the design process.
+
+\begin{itemize}
+    \item Typically consist of hand-drawn sketches or simple diagrams.
+    \item Focus on structure, layout, and overall user flow rather than visual style.
+    \item Tools include pen and paper, whiteboards, or basic digital sketching apps.
+    \item Sketching can often be more effective than digital tools such as Figma in early phases.
+    \item Capturing sketches with a phone is recommended for record-keeping.
+    \item Useful for gathering early feedback from stakeholders and team members.
+\end{itemize}
+
+\textbf{Benefits:}
+\begin{itemize}
+    \item Fast and easy to create.
+    \item Encourages iteration and exploration.
+    \item Reduces emotional attachment to designs.
+    \item Supports collaborative design and brainstorming.
+\end{itemize}
+
+\subsubsection{Medium-Fidelity Prototypes}
+
+Medium-fidelity (mid-fi) prototypes incorporate more detail than lo-fi versions and are often developed once the direction of the user interface becomes clearer.
+
+\begin{itemize}
+    \item Usually created with software such as Figma, Sketch, Balsamiq, or Wireframe tools.
+    \item Include refined layout, basic navigation, and possibly placeholder text or icons.
+    \item Allow simulation of user interactions (e.g., clicking through screens).
+    \item Present a clearer structure of the product for feedback.
+\end{itemize}
+
+\textbf{Benefits:}
+\begin{itemize}
+    \item More accurate visual representation.
+    \item Easier for clients or users to understand and evaluate.
+    \item Enables early usability testing.
+\end{itemize}
+
+\subsubsection{High-Fidelity Prototypes}
+
+High-fidelity (hi-fi) prototypes are close representations of the final product in both appearance and interactivity.
+
+\begin{itemize}
+    \item Created using advanced design tools or development platforms.
+    \item Include real images, fonts, colours, and interactive elements.
+    \item Behave like the final application (e.g., hover effects, form validation).
+    \item Often used for stakeholder demonstrations or usability testing.
+\end{itemize}
+
+\textbf{Benefits:}
+\begin{itemize}
+    \item Provides realistic user experiences.
+    \item Useful for stakeholder approval before development.
+    \item Allows detailed testing of interaction flows.
+    \item Can serve as a reference for developers.
+\end{itemize}
+
+
+
+
+\subsection{The Model-View-Controller (MVC) Pattern}
+
+The Model-View-Controller (MVC) design pattern is one of the foundational patterns in object-oriented programming. Originally introduced by Trygve Reenskaug in the 1970s, it continues to be widely used in software design today.
+
+\subsubsection{Core Components of MVC}
+MVC divides application responsibilities into three distinct components:
+
+\subsubsection*{The Model}
+\begin{itemize}
+\item \textbf{Data Management} – Responsible for handling and storing application data. It often interacts with databases and manages CRUD operations.
+\item \textbf{Business Logic} – Executes the core functionality and rules of the application. This is where calculations and domain-specific operations occur.
+\item \textbf{Data Validation} – Ensures the integrity and correctness of data before it is processed or stored.
+\end{itemize}
+
+\subsubsection*{The View}
+\begin{itemize}
+\item \textbf{Displays Data} – Presents information from the model in a visual and human-readable format.
+\item \textbf{Captures User Input} – Receives user interactions (e.g., button clicks, text input) and forwards them to the controller.
+\item \textbf{UI Updates} – Reflects any changes in the model by updating the interface dynamically. Commonly uses the Observer Pattern.
+\end{itemize}
+
+\subsubsection*{The Controller}
+\begin{itemize}
+\item \textbf{Request Processing} – Handles incoming events from the user or other parts of the system.
+\item \textbf{Mediator} – Acts as an intermediary between the view and the model, updating one based on changes to the other.
+\item \textbf{Session Management} – Manages session state in stateless applications by storing and retrieving context-specific data.
+\end{itemize}
+
+\subsubsection{MVC Lifecycle Diagram}
+
+\begin{center}
+\begin{tikzpicture}[node distance=5cm, every node/.style={align=center}]
+    % Node layout in circular form with reduced distance
+    \node[draw, rectangle, fill=blue!10, minimum width=3.5cm, minimum height=1.2cm] (model) at (0, 6) {\textbf{Model}};
+    \node[draw, rectangle, fill=blue!10, minimum width=3.5cm, minimum height=1.2cm] (view) at (-6, 3) {\textbf{View}};
+    \node[draw, circle, fill=blue!10, minimum size=2cm] (user) at (0, 0) {\textbf{User}};
+    \node[draw, rectangle, fill=blue!10, minimum width=3.5cm, minimum height=1.2cm] (controller) at (6, 3) {\textbf{Controller}};
+
+    % Arrows with consistent lengths and labels
+    \draw[->, thick] (model) -- node[sloped, above] {\textbf{updates}} (view);
+    \draw[->, thick] (view) -- node[sloped, above] {\textbf{sees}} (user);
+    \draw[->, thick] (user) -- node[sloped, above] {\textbf{uses}} (controller);
+    \draw[->, thick] (controller) -- node[sloped, above] {\textbf{manipulates}} (model);
+\end{tikzpicture}
+\end{center}
+
+\subsubsection{Purpose of MVC}
+
+The primary purpose of MVC is to achieve \textbf{separation of concerns}, which facilitates:
+\begin{itemize}
+    \item \textbf{Testability} – Components can be tested independently.
+    \item \textbf{Maintainability} – Easier to locate and fix issues.
+    \item \textbf{Scalability} – Enhancements or extensions can be added with minimal impact.
+    \item \textbf{Reusability} – Components can be reused across different applications.
+\end{itemize}
+
+
+ 
+
+
+
+
+
+
+
+
+
+
 
 
 
