@@ -14,7 +14,10 @@ no\documentclass{article}
 \usepackage{hyperref}     % For clickable links (if needed)
 \usepackage{tikz}
 \usetikzlibrary{positioning}
-
+\usepackage{tcolorbox}
+\tcbuselibrary{listingsutf8}
+\definecolor{mintgreen}{rgb}{0.95,1,0.95} % soft green to match Pastie
+\newcommand{\codecmd}[1]{\textcolor[rgb]{0,0.5,0}{\texttt{#1}}}
 
 % Header and footer
 % ! Unit name
@@ -57,7 +60,7 @@ Java is a high-level, class-based, object-oriented programming language that is 
 
 Originally created in the 1990s at Sun Microsystems, Java was designed to be platform-independent and architecture-neutral, enabling code to run consistently across various systems (regardless of endianness\footnote{Endianness, in computing, refers to the order in which bytes within a word of digital data are stored in computer memory or transmitted over a network. It can be either big-endian (most significant byte first) or little-endian (least significant byte first)}). Java supports automatic garbage collection, offers robust memory management, and was developed with the internet in mind. Since becoming open source in 2006, it has served as the primary platform for Android development.
 
-A basic Java program includes a class definition and a \texttt{main} method, which serves as the entry point for execution. For example, a program that prints \texttt{Hello, world!} to the console can be written as:
+A basic Java program includes a class definition and a \codecmd{main} method, which serves as the entry point for execution. For example, a program that prints \codecmd{Hello, world!} to the console can be written as:
 
 \begin{minted}[fontsize=\small, linenos, breaklines]{java}
 public class HelloWorld {
@@ -88,7 +91,7 @@ Java provides a set of built-in primitive data types for representing simple val
 \bottomrule
 \end{tabular}
 \end{table}
-\textit{*Note: The size of a \texttt{boolean} is not fixed and depends on the JVM implementation. It is often 1 byte but not guaranteed.}
+\textit{*\textbf{Note}: The size of a \codecmd{boolean} is not fixed and depends on the JVM implementation. It is often 1 byte but not guaranteed.}
 
 \subsection{Java Operators}
 
@@ -179,16 +182,16 @@ Java’s object-oriented paradigm is based on four core principles:
 
 \subsubsection{Everything's an Object}
 
-In Java, \texttt{java.lang.Object} is the ultimate superclass of all classes. Every Java object (including arrays) inherits its methods. These include:
+In Java, \codecmd{java.lang.Object} is the ultimate superclass of all classes. Every Java object (including arrays) inherits its methods. These include:
 
 \begin{itemize}
-    \item \texttt{clone()} – Returns a copy of the object (shallow copy).
-    \item \texttt{equals(Object obj)} – Compares for equality.
-    \item \texttt{hashCode()} – Generates a hash code for use in hash tables.
-    \item \texttt{toString()} – Returns a string representation of the object.
-    \item \texttt{getClass()} – Provides the object's runtime class.
-    \item \texttt{finalize()} – Invoked by the garbage collector before destruction.
-    \item \texttt{wait()}, \texttt{notify()}, \texttt{notifyAll()} – Used for thread coordination.
+    \item \codecmd{clone()} – Returns a copy of the object (shallow copy).
+    \item \codecmd{equals(Object obj)} – Compares for equality.
+    \item \codecmd{hashCode()} – Generates a hash code for use in hash tables.
+    \item \codecmd{toString()} – Returns a string representation of the object.
+    \item \codecmd{getClass()} – Provides the object's runtime class.
+    \item \codecmd{finalize()} – Invoked by the garbage collector before destruction.
+    \item \codecmd{wait()}, \codecmd{notify()}, \codecmd{notifyAll()} – Used for thread coordination.
 \end{itemize}
 
 These methods form the core behaviours available to every Java object.
@@ -248,7 +251,7 @@ class BankAccount {
 
 \subsubsection{Command Line Arguments}
 
-Command line arguments are passed to Java applications through the \texttt{main} method. These values can be used to modify program behaviour at runtime.
+Command line arguments are passed to Java applications through the \codecmd{main} method. These values can be used to modify program behaviour at runtime.
 
 \begin{minted}[fontsize=\small, linenos, breaklines]{java}
 public class ArgumentPrinter {
@@ -264,7 +267,7 @@ public class ArgumentPrinter {
 
 \subsubsection{Standard Output}
 
-Output to the console is typically performed using \texttt{System.out.print()} and \texttt{System.out.println()}. These are commonly used for program feedback and debugging.
+Output to the console is typically performed using \codecmd{System.out.print()} and \codecmd{System.out.println()}. These are commonly used for program feedback and debugging.
 
 \begin{minted}[fontsize=\small, linenos, breaklines]{java}
 public class OutputExample {
@@ -279,17 +282,17 @@ public class OutputExample {
 \subsection{Using Interfaces in Java for OOP}
 \label{subsec:interfaces}
 
-In Java, an \texttt{interface} defines a set of method signatures that implementing classes must fulfil. This promotes abstraction and allows different classes to share common behaviour without enforcing inheritance.
+In Java, an \codecmd{interface} defines a set of method signatures that implementing classes must fulfil. This promotes abstraction and allows different classes to share common behaviour without enforcing inheritance.
 
 Interfaces may contain:
 \begin{itemize}
-    \item Abstract methods (implicitly \texttt{public abstract})
-    \item \texttt{default} methods with implementation
-    \item \texttt{static} methods
-    \item Constants (\texttt{public static final})
+    \item Abstract methods (implicitly \codecmd{public abstract})
+    \item \codecmd{default} methods with implementation
+    \item \codecmd{static} methods
+    \item Constants (\codecmd{public static final})
 \end{itemize}
 
-Classes implement interfaces using the \texttt{implements} keyword. All abstract methods must be defined by the implementing class.
+Classes implement interfaces using the \codecmd{implements} keyword. All abstract methods must be defined by the implementing class.
 
 Interfaces are preferred in Java over class inheritance when designing for flexibility and modularity. Since Java does not support multiple class inheritance, interfaces offer a mechanism for multiple behavioural inheritance. This approach avoids the fragility associated with deep inheritance hierarchies and encourages composition over inheritance. It also enables different classes to share a common set of behaviours without enforcing a shared ancestry.
 
@@ -323,7 +326,104 @@ public class Main {
 }
 \end{minted}
 
-This example demonstrates \textbf{polymorphism} through interface references. Both \texttt{Dog} and \texttt{Cat} implement \texttt{Animal}, enabling uniform handling while invoking class-specific behaviour.
+This example demonstrates \textbf{polymorphism} through interface references. Both \codecmd{Dog} and \codecmd{Cat} implement \codecmd{Animal}, enabling uniform handling while invoking class-specific behaviour.
+
+\subsubsection*{Example: Interface with Multiple Implementations in a Strategy Pattern}
+
+Interfaces can support behavioural flexibility by enabling interchangeable algorithms. In the example below, an interface is used to encapsulate different payment strategies.
+
+\begin{minted}[fontsize=\small, linenos, breaklines]{java}
+interface PaymentStrategy {
+    void pay(int amount);
+}
+
+class CreditCardPayment implements PaymentStrategy {
+    public void pay(int amount) {
+        System.out.println("Paid $" + amount + " with credit card.");
+    }
+}
+
+class PayPalPayment implements PaymentStrategy {
+    public void pay(int amount) {
+        System.out.println("Paid $" + amount + " using PayPal.");
+    }
+}
+
+class Checkout {
+    private PaymentStrategy strategy;
+
+    public Checkout(PaymentStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void processPayment(int amount) {
+        strategy.pay(amount);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Checkout c1 = new Checkout(new CreditCardPayment());
+        c1.processPayment(100);
+
+        Checkout c2 = new Checkout(new PayPalPayment());
+        c2.processPayment(200);
+    }
+}
+\end{minted}
+
+This demonstrates the \textbf{Strategy Pattern}, where interchangeable implementations of \codecmd{PaymentStrategy} are used at runtime. This decouples the client class (\codecmd{Checkout}) from specific implementations.
+
+\subsubsection*{Example: Interface Inheritance and Default Methods}
+
+Interfaces in Java can extend other interfaces and also provide default method implementations.
+
+\begin{minted}[fontsize=\small, linenos, breaklines]{java}
+interface Shape {
+    double area();
+}
+
+interface Printable {
+    default void print() {
+        System.out.println("Printing shape...");
+    }
+}
+
+class Circle implements Shape, Printable {
+    private double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    public double area() {
+        return Math.PI * radius * radius;
+    }
+
+    // Optional: override default print
+    public void print() {
+        System.out.println("Circle with area: " + area());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Circle c = new Circle(3.0);
+        c.print(); // Circle with area: 28.27...
+    }
+}
+\end{minted}
+
+This example illustrates:
+\begin{itemize}
+    \item Multiple interface implementation (\codecmd{Shape} and \codecmd{Printable})
+    \item Use and override of a \codecmd{default} method
+    \item Compositional design via behaviour-based contracts
+\end{itemize}
+
+\medskip
+\textit{Using interfaces in this way supports a clean separation of concerns and promotes reusable, modular design.}
+
 
 \medskip
 \textit{Interfaces are well suited for defining contracts that can be shared across unrelated classes.}
@@ -337,12 +437,12 @@ The Java Standard Library includes a comprehensive collection of packages built 
 This package provides utility classes including collections, data structures, random number generation, and date/time classes.
 
 \begin{itemize}
-    \item \texttt{ArrayList} – A dynamically resizing array.
-    \item \texttt{HashMap} – A key-value data structure with constant-time lookup.
-    \item Additional utilities include \texttt{LinkedList}, \texttt{HashSet}, \texttt{Date}, \texttt{Calendar}, and \texttt{Random}.
+    \item \codecmd{ArrayList} – A dynamically resizing array.
+    \item \codecmd{HashMap} – A key-value data structure with constant-time lookup.
+    \item Additional utilities include \codecmd{LinkedList}, \codecmd{HashSet}, \codecmd{Date}, \codecmd{Calendar}, and \codecmd{Random}.
 \end{itemize}
 
-\noindent\textbf{Example: Using \texttt{ArrayList} and \texttt{HashMap}}
+\noindent\textbf{Example: Using \codecmd{ArrayList} and \codecmd{HashMap}}
 \begin{minted}[fontsize=\small, linenos, breaklines]{java}
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -368,9 +468,9 @@ public class UtilExample {
 Provides classes for input/output streams, file access, character encoding, and buffered I/O operations.
 
 \begin{itemize}
-    \item \texttt{File}, \texttt{FileReader}, \texttt{FileWriter}
-    \item \texttt{BufferedReader}, \texttt{PrintWriter}
-    \item \texttt{InputStream}, \texttt{OutputStream}
+    \item \codecmd{File}, \codecmd{FileReader}, \codecmd{FileWriter}
+    \item \codecmd{BufferedReader}, \codecmd{PrintWriter}
+    \item \codecmd{InputStream}, \codecmd{OutputStream}
 \end{itemize}
 
 \noindent\textbf{Example: Writing to and reading from a file}
@@ -398,9 +498,9 @@ public class IOExample {
 This package enables network communication using sockets, IP addresses, and URLs.
 
 \begin{itemize}
-    \item \texttt{Socket}, \texttt{ServerSocket}
-    \item \texttt{URL}, \texttt{URLConnection}
-    \item \texttt{InetAddress}
+    \item \codecmd{Socket}, \codecmd{ServerSocket}
+    \item \codecmd{URL}, \codecmd{URLConnection}
+    \item \codecmd{InetAddress}
 \end{itemize}
 
 \noindent\textbf{Example: Accessing a web page using \texttt{URL}}
@@ -424,12 +524,12 @@ public class NetworkExample {
 
 \subsubsection*{java.lang}
 
-Contains essential classes such as \texttt{Object}, \texttt{System}, \texttt{Math}, and wrapper types. It is automatically imported into every Java program.
+Contains essential classes such as \codecmd{Object}, \codecmd{System}, \codecmd{Math}, and wrapper types. It is automatically imported into every Java program.
 
 \begin{itemize}
-    \item \texttt{Object} – Superclass of all Java classes
-    \item \texttt{System} – Access to standard input/output and system properties
-    \item \texttt{Math}, \texttt{String}, \texttt{Integer}, etc.
+    \item \codecmd{Object} – Superclass of all Java classes
+    \item \codecmd{System} – Access to standard input/output and system properties
+    \item \codecmd{Math}, \codecmd{String}, \codecmd{Integer}, etc.
 \end{itemize}
 
 \noindent\textbf{Example: Using \texttt{System} and \texttt{Math}}
@@ -447,9 +547,9 @@ public class LangExample {
 Introduced in Java 8, this package provides a modern date and time API with immutable and thread-safe classes.
 
 \begin{itemize}
-    \item \texttt{LocalDate}, \texttt{LocalTime}, \texttt{LocalDateTime}
-    \item \texttt{Duration}, \texttt{Period}, \texttt{ZoneId}, \texttt{ZonedDateTime}
-    \item Preferred over \texttt{java.util.Date} and \texttt{Calendar} for new development
+    \item \codecmd{LocalDate}, \codecmd{LocalTime}, \codecmd{LocalDateTime}
+    \item \codecmd{Duration}, \codecmd{Period}, \codecmd{ZoneId}, \codecmd{ZonedDateTime}
+    \item Preferred over \codecmd{java.util.Date} and \codecmd{Calendar} for new development
 \end{itemize}
 
 \noindent\textbf{Example: Working with dates and times}
@@ -476,8 +576,8 @@ public class TimeExample {
 This package is part of the NIO.2 API and provides advanced file and directory handling with improved performance and flexibility.
 
 \begin{itemize}
-    \item \texttt{Files} – Static methods for file operations (e.g., copy, move, delete)
-    \item \texttt{Paths}, \texttt{Path} – Represent file and directory locations
+    \item \codecmd{Files} – Static methods for file operations (e.g., copy, move, delete)
+    \item \codecmd{Paths}, \codecmd{Path} – Represent file and directory locations
     \item Supports symbolic links, file attributes, and stream-based file access
 \end{itemize}
 
@@ -561,7 +661,8 @@ Several tools implement version control with varying degrees of popularity:
 
 Git is a distributed version control system developed by Linus Torvalds, the creator of the Linux kernel. It was specifically designed to manage large-scale software projects with speed and flexibility.
 
-\textbf{Key goals of Git:}
+\vspace{1em}
+\noindent\textbf{Key goals of Git:}
 \begin{itemize}
     \item High performance and efficiency
     \item Full support for non-linear development (branching and merging)
@@ -655,7 +756,7 @@ A remote repository is hosted on an external server or cloud platform (e.g., Git
     \item Updates made locally are only reflected on the remote when pushed.
 \end{itemize}
 
-\noindent\textit{\textbf{Note:} Local changes do not affect the remote repository until a \texttt{git push} operation is performed. This separation allows developers to prepare and test changes independently before sharing them.}
+\noindent\textit{\textbf{Note:} Local changes do not affect the remote repository until a \codecmd{git push} operation is performed. This separation allows developers to prepare and test changes independently before sharing them.}
 
 \subsubsection{The Git Lifecycle}
 
@@ -687,6 +788,45 @@ Git operations follow a structured lifecycle that separates untracked changes fr
 
 This lifecycle ensures changes are intentionally managed at each step, promoting a clear separation between uncommitted, committed, and shared code states.
 
+\subsubsection{Good Coding Practice with Version Control}
+
+Version control systems such as Git are not only essential for collaboration and tracking changes, but also provide a platform to demonstrate and enforce good software development practices. Adhering to disciplined workflows can significantly enhance code quality, team productivity, and maintainability.
+
+Some key practices include:
+
+\begin{itemize}
+    \item \textbf{Regular commits with meaningful messages}: Frequent commits that reflect logical units of work help create a clear project history. Commit messages should accurately summarise the change and follow a consistent style.
+    
+    \item \textbf{Code reviews through Pull Requests}: When using platforms like GitHub or GitLab, pull requests enable peer review, improve code quality, and foster knowledge sharing within a team.
+    
+    \item \textbf{Branch-based feature development}: New features or bug fixes should be developed in isolated branches. This reduces the risk of conflicts and allows multiple team members to work in parallel.
+    
+    \item \textbf{Refactoring and use of design patterns}: Although covered in detail in later topics, incorporating well-known design patterns and regular code refactoring into the version-controlled workflow contributes to long-term project scalability and readability.
+\end{itemize}
+
+Incorporating these practices into daily development workflows fosters a more structured, professional, and collaborative environment.
+
+\subsubsection{Pull Requests with GitHub}
+
+A pull request (PR) is a mechanism provided by platforms such as GitHub to propose, discuss, and review changes before merging them into a target branch. It serves as a formal code review process and facilitates collaboration among contributors.
+
+The typical workflow involves the following steps:
+
+\begin{enumerate}
+    \item A contributor creates a new branch from the \texttt{main} branch or another base branch.
+    \item Commits are made to this branch, encapsulating a single feature, bug fix, or improvement.
+    \item Once complete, a pull request is opened on the GitHub repository, targeting the original branch (usually \texttt{main}).
+    \item Reviewers can examine the changes, leave comments, request revisions, and ultimately approve or reject the changes.
+    \item Once approved, the pull request is merged, integrating the proposed changes into the base branch.
+\end{enumerate}
+
+Pull requests support features such as inline code comments, status checks, automatic merge conflict detection, and enforcement of branch protection rules. This structured process helps maintain code quality, promotes accountability, and provides a documented history of the discussion surrounding each change.
+
+\medskip
+\textit{\textbf{Note}: While GitHub is the most widely used platform for pull requests, similar workflows are also available on GitLab, Bitbucket, and Azure DevOps.}
+
+
+
 \subsection{Fundamental Git Commands}
 
 This section outlines the most commonly used Git commands for managing source code, tracking changes, and collaborating with remote repositories. These commands form the foundation of most Git workflows.
@@ -695,19 +835,23 @@ This section outlines the most commonly used Git commands for managing source co
 
 To create a new Git repository in the current directory:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git init
 \end{minted}
+\end{tcolorbox}
 
-\noindent This sets up a new local repository by creating a \texttt{.git} directory containing all version control metadata.
+\noindent This sets up a new local repository by creating a \codecmd{.git} directory containing all version control metadata.
 
 \subsubsection{Cloning a Repository}
 
 To create a local copy of an existing remote repository:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git clone https://github.com/example/project.git
 \end{minted}
+\end{tcolorbox}
 
 \noindent This creates a local folder containing the entire commit history and working directory from the remote source.
 
@@ -715,9 +859,11 @@ git clone https://github.com/example/project.git
 
 To check which files have been modified, staged, or remain untracked:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git status
 \end{minted}
+\end{tcolorbox}
 
 \noindent This is useful before staging or committing to verify the current state of the working directory.
 
@@ -725,25 +871,31 @@ git status
 
 To stage a file for commit:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git add filename.java
 \end{minted}
+\end{tcolorbox}
 
 \noindent To stage all changes in the current directory:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git add .
 \end{minted}
+\end{tcolorbox}
 
-\noindent Staged files are added to the index (staging area) and will be included in the next commit.
+\noindent Staged files are added to the index (staging area) and will be included in the next \codecmd{commit}.
 
 \subsubsection{Committing Changes}
 
 To create a snapshot of staged changes:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git commit -m "Add user authentication module"
 \end{minted}
+\end{tcolorbox}
 
 \noindent This saves the changes to the local repository history with a message describing the update.
 
@@ -751,103 +903,507 @@ git commit -m "Add user authentication module"
 
 To view the list of previous commits:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git log
 \end{minted}
+\end{tcolorbox}
 
 \noindent To view a more concise summary:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git log --oneline
 \end{minted}
+\end{tcolorbox}
 
 \subsubsection{Inspecting Differences}
 
 To view the changes in modified files (compared to last commit):
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git diff
 \end{minted}
+\end{tcolorbox}
 
 \noindent To compare staged changes to the last commit:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git diff --cached
 \end{minted}
+\end{tcolorbox}
 
 \subsubsection{Pushing to a Remote Repository}
 
 To upload local commits to the remote repository:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git push origin main
 \end{minted}
+\end{tcolorbox}
 
-\noindent This updates the remote’s \texttt{main} branch with all commits from the local repository.
+\noindent This updates the remote’s \codecmd{main} branch with all commits from the local repository using the \codecmd{push} command.
 
 \subsubsection{Pulling from a Remote Repository}
 
 To fetch and merge changes from the remote:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git pull origin main
 \end{minted}
+\end{tcolorbox}
 
-\noindent This ensures the local branch is up to date with the remote.
+\noindent This ensures the local branch is up to date with the remote by using the \codecmd{pull} command.
 
 \subsubsection{Creating and Switching Branches}
 
-To create a new branch:
+To create a new branch called, for example, \codecmd{feature-login}:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git branch feature-login
 \end{minted}
+\end{tcolorbox}
 
 \noindent To switch to that branch:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git checkout feature-login
 \end{minted}
+\end{tcolorbox}
 
 \noindent To create and switch in one step:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git checkout -b feature-login
 \end{minted}
+\end{tcolorbox}
 
 \subsubsection{Checking Branches}
 
 To list all local branches:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git branch
 \end{minted}
+\end{tcolorbox}
 
 \noindent To list local and remote branches:
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git branch -a
 \end{minted}
+\end{tcolorbox}
 
 \subsubsection{Origin}
 
-The term \texttt{origin} is a conventional name used to refer to the remote repository that a local repository is connected to. This association allows developers to push and pull updates with ease.
+The term \codecmd{origin} is a conventional name used to refer to the remote repository that a local repository is connected to. This association allows developers to push and pull updates with ease.
 
 \begin{itemize}
-    \item The name \texttt{origin} is automatically assigned when a repository is cloned.
+    \item The name \codecmd{origin} is automatically assigned when a repository is cloned.
     \item If the local repository was not cloned, the remote must be manually added using the following command:
 \end{itemize}
 
+\begin{tcolorbox}[colback=mintgreen, colframe=green!40!black, boxrule=0.5pt, sharp corners]
 \begin{minted}[fontsize=\small]{bash}
 git remote add origin https://github.com/yourusername/your-repositoryname
 \end{minted}
+\end{tcolorbox}
 
-\noindent Once added, the remote repository can be referenced using \texttt{origin} in future commands such as \texttt{git push origin main} or \texttt{git pull origin main}. This configuration only needs to be performed once.
+\noindent Once added, the remote repository can be referenced using \codecmd{origin} in future commands such as \codecmd{git push origin main} or \codecmd{git pull origin main}. This configuration only needs to be performed once.
+
+\subsection{JavaFx \& the Graphical User Interface }
+
+\subsection{JavaFX and CRUD Application Development}
+
+JavaFX is a set of Java libraries designed to support modern graphical user interface (GUI) development. It enables the creation of desktop applications with structured UI design, CSS-based styling, and event-driven control through Java code. JavaFX projects typically separate layout, behaviour, and appearance using FXML, controller classes, and stylesheets.
+
+\subsubsection{JavaFX Structure and Components}
+
+A JavaFX application is composed of three core layers:
+
+\begin{itemize}
+    \item \textbf{FXML}: An XML-based language used to define the layout of user interface elements in a declarative format.
+    \item \textbf{CSS}: Cascading Style Sheets (.css) are used to style components visually (e.g., fonts, colours, spacing).
+    \item \textbf{JavaFX Library}: Java classes handle event-driven logic and user interaction via a designated controller.
+\end{itemize}
+
+The following is a minimal example of a UI layout written in FXML:
+
+\begin{minted}[fontsize=\small, linenos]{xml}
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.addressbook.HelloController">
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+    </padding>
+    <Label fx:id="welcomeText"/>
+    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+</VBox>
+\end{minted}
+
+This layout defines a vertical box (VBox) aligned to the centre with a label and button. The controller class \codecmd{HelloController} manages button actions in Java.
+
+\subsubsection{Stages, Scenes, and Controls}
+
+JavaFX separates content and visual structure into well-defined concepts:
+
+\begin{itemize}
+    \item \textbf{Stage}: The top-level container that represents a window in a JavaFX application.
+    \item \textbf{Scene}: A container that holds the visual content for a stage. Only one scene can be active on a stage at any time.
+    \item \textbf{Controls}: Interactive GUI elements such as buttons, text fields, menus, and tables.
+\end{itemize}
+
+Example controls in JavaFX include:
+
+\begin{itemize}
+    \item \textbf{Button, ToggleButton, RadioButton}
+    \item \textbf{TextField, TextArea, PasswordField}
+    \item \textbf{ChoiceBox, ListView, TableView}
+    \item \textbf{Slider, Tooltip, MenuBar}
+\end{itemize}
+
+These controls are instantiated in FXML and linked to event handlers defined in the controller.
+
+\subsubsection{Creating a Basic Address Book (CRUD Operations)}
+
+A CRUD-based address book allows users to:
+
+\begin{itemize}
+    \item \textbf{Create} a new contact record.
+    \item \textbf{Read} or display contact entries in a view such as \codecmd{TableView}.
+    \item \textbf{Update} existing records with new data.
+    \item \textbf{Delete} entries from the dataset.
+\end{itemize}
+
+The controller manages logic for handling input events, validating form fields, and updating the user interface in response to changes.
+
+A minimal FXML layout might include:
+
+\begin{minted}[fontsize=\small, linenos]{xml}
+<GridPane fx:controller="com.example.addressbook.AddressBookController"
+          xmlns:fx="http://javafx.com/fxml" hgap="10" vgap="10">
+    <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <TextField fx:id="nameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+    <Label text="Phone:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <TextField fx:id="phoneField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+    <Button text="Add Contact" onAction="#addContact"
+            GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+    <Button text="Update" onAction="#updateContact"
+            GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+    <Button text="Delete" onAction="#deleteContact"
+            GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+
+    <TableView fx:id="contactTable" GridPane.rowIndex="3" GridPane.columnSpan="3"/>
+</GridPane>
+\end{minted}
+
+In the controller class \codecmd{AddressBookController}, logic would be written to handle each operation:
+
+\begin{minted}[fontsize=\small, linenos]{java}
+public void addContact() {
+    String name = nameField.getText();
+    String phone = phoneField.getText();
+    contactList.add(new Contact(name, phone));
+}
+
+public void updateContact() {
+    Contact selected = contactTable.getSelectionModel().getSelectedItem();
+    selected.setName(nameField.getText());
+    selected.setPhone(phoneField.getText());
+    contactTable.refresh();
+}
+
+public void deleteContact() {
+    Contact selected = contactTable.getSelectionModel().getSelectedItem();
+    contactList.remove(selected);
+}
+\end{minted}
+
+\noindent This provides a full cycle for managing contact data within a GUI-based desktop application using JavaFX.
+
+\medskip
+\textit{\textbf{Note}: To persist data between sessions, the application may be extended with file I/O or a database backend in future implementations.}
+
+\subsection{JavaFX Controls}
+
+\subsubsection{Button}
+
+A \codecmd{Button} in JavaFX is used to trigger actions in response to user interaction.
+
+\begin{minted}[fontsize=\small]{java}
+// Create a button with display text
+Button button = new Button("Click Me");
+
+// Set the button's action handler
+button.setOnAction(e -> System.out.println("Button clicked"));
+\end{minted}
+
+To use a button:
+\begin{itemize}
+    \item Ensure it is added to a layout container (e.g., \codecmd{VBox}, \codecmd{HBox}).
+    \item Include the layout in the \codecmd{Scene}.
+    \item Display the scene in the \codecmd{Stage}.
+\end{itemize}
+
+\subsubsection{Text Field}
+
+A \codecmd{TextField} is used to accept single-line user input.
+
+\begin{minted}[fontsize=\small]{java}
+// Create a text field with placeholder text
+TextField textField = new TextField();
+textField.setPromptText("Enter your name");
+\end{minted}
+
+\noindent To retrieve input:
+\begin{minted}[fontsize=\small]{java}
+String input = textField.getText();
+\end{minted}
+
+Ensure the text field is added to a layout and displayed in a scene.
+
+\subsubsection{List View}
+
+A \codecmd{ListView} displays a vertical list of selectable items.
+
+\begin{minted}[fontsize=\small]{java}
+ListView<String> listView = new ListView<>();
+listView.getItems().addAll("Apple", "Banana", "Cherry");
+\end{minted}
+
+\noindent To get the selected item:
+\begin{minted}[fontsize=\small]{java}
+String selected = listView.getSelectionModel().getSelectedItem();
+\end{minted}
+
+\subsubsection{List View}
+
+A \codecmd{ListView} displays a vertical list of selectable items.
+
+\begin{minted}[fontsize=\small]{java}
+ListView<String> listView = new ListView<>();
+listView.getItems().addAll("Apple", "Banana", "Cherry");
+\end{minted}
+
+\noindent To get the selected item:
+\begin{minted}[fontsize=\small]{java}
+String selected = listView.getSelectionModel().getSelectedItem();
+\end{minted}
+
+\subsubsection{Table View}
+
+A \codecmd{TableView} displays structured data in rows and columns.
+
+\begin{minted}[fontsize=\small]{java}
+TableView<Person> table = new TableView<>();
+
+TableColumn<Person, String> first = new TableColumn<>("First Name");
+first.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+
+TableColumn<Person, String> last = new TableColumn<>("Last Name");
+last.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+
+table.getColumns().addAll(first, last);
+\end{minted}
+
+\noindent This requires a model class:
+\begin{minted}[fontsize=\small]{java}
+public class Person {
+    private final String firstName;
+    private final String lastName;
+
+    public Person(String f, String l) {
+        this.firstName = f;
+        this.lastName = l;
+    }
+
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+}
+\end{minted}
+
+\subsubsection{Tooltip}
+
+Tooltips display extra information when hovering over a control.
+
+\begin{minted}[fontsize=\small]{java}
+TextField field = new TextField();
+Tooltip tooltip = new Tooltip("Must be at least 8 characters");
+field.setTooltip(tooltip);
+\end{minted}
+
+\subsubsection{Choice Box}
+
+A \codecmd{ChoiceBox} allows the user to select one item from a dropdown list.
+
+\begin{minted}[fontsize=\small]{java}
+ChoiceBox<String> choiceBox = new ChoiceBox<>();
+choiceBox.getItems().addAll("Red", "Green", "Blue");
+choiceBox.setValue("Green");
+\end{minted}
+
+\noindent To get the selected value:
+\begin{minted}[fontsize=\small]{java}
+String colour = choiceBox.getValue();
+\end{minted}
+
+\subsubsection{Choice Box}
+
+A \codecmd{ChoiceBox} allows the user to select one item from a dropdown list.
+
+\begin{minted}[fontsize=\small]{java}
+ChoiceBox<String> choiceBox = new ChoiceBox<>();
+choiceBox.getItems().addAll("Red", "Green", "Blue");
+choiceBox.setValue("Green");
+\end{minted}
+
+\noindent To get the selected value:
+\begin{minted}[fontsize=\small]{java}
+String colour = choiceBox.getValue();
+\end{minted}
+
+\subsubsection{Toggle Button}
+
+A \codecmd{ToggleButton} can be switched on or off.
+
+\begin{minted}[fontsize=\small]{java}
+ToggleButton toggle = new ToggleButton("Activate");
+toggle.setSelected(true); // start in active state
+\end{minted}
+
+\subsubsection{Radio Button}
+
+\codecmd{RadioButton}s are used in groups where only one can be selected at a time.
+
+\begin{minted}[fontsize=\small]{java}
+RadioButton r1 = new RadioButton("Option A");
+RadioButton r2 = new RadioButton("Option B");
+
+ToggleGroup group = new ToggleGroup();
+r1.setToggleGroup(group);
+r2.setToggleGroup(group);
+r1.setSelected(true); // default selection
+\end{minted}
+
+\subsubsection{Slider}
+
+A \codecmd{Slider} allows the user to select a numeric value within a range.
+
+\begin{minted}[fontsize=\small]{java}
+Slider slider = new Slider(0, 100, 50); // min, max, initial value
+slider.setShowTickMarks(true);
+slider.setShowTickLabels(true);
+\end{minted}
+
+To read the current value:
+\begin{minted}[fontsize=\small]{java}
+double value = slider.getValue();
+\end{minted}
+
+\subsubsection{Menu Bar}
+
+A \codecmd{MenuBar} provides a menu interface at the top of a window.
+
+\begin{minted}[fontsize=\small]{java}
+MenuBar menuBar = new MenuBar();
+
+Menu fileMenu = new Menu("File");
+MenuItem exitItem = new MenuItem("Exit");
+exitItem.setOnAction(e -> System.exit(0));
+
+fileMenu.getItems().add(exitItem);
+menuBar.getMenus().add(fileMenu);
+\end{minted}
+
+
+\subsection{JavaFX Packages}
+
+JavaFX is organised into modular packages that separate functionality by component type. This modular design enables developers to import only what is necessary for their application, improving clarity and efficiency.
+
+A commonly used package is \codecmd{javafx.scene}, which provides core UI classes such as \codecmd{Scene}, \codecmd{Node}, and layout controls. Within this structure, additional subpackages offer specialised capabilities for different domains.
+
+One such example is the \codecmd{javafx.scene.chart} package, included in the base JavaFX library. It provides a suite of classes for creating chart-based data visualisations, including:
+
+\begin{itemize}
+    \item \codecmd{LineChart}, \codecmd{BarChart}, \codecmd{PieChart}
+    \item \codecmd{XYChart}, \codecmd{CategoryAxis}, \codecmd{NumberAxis}
+\end{itemize}
+
+These chart classes integrate with the JavaFX scene graph and can be embedded within UI layouts like any other control. They support dynamic updates, style customisation, and data-driven rendering.
+
+\medskip
+\textit{Other useful JavaFX packages include \codecmd{javafx.scene.control}, \codecmd{javafx.stage}, and \codecmd{javafx.fxml}.}
+
+\subsubsection{Example: Line Chart in JavaFX}
+
+The following example demonstrates how to create a basic \codecmd{LineChart} in JavaFX using the \codecmd{javafx.scene.chart} package.
+
+\begin{minted}[fontsize=\small, linenos, breaklines]{java}
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.chart.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public class LineChartExample extends Application {
+
+    @Override
+    public void start(Stage stage) {
+        stage.setTitle("Line Chart Example");
+
+        // Define axes
+        NumberAxis xAxis = new NumberAxis();
+        NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Time");
+        yAxis.setLabel("Value");
+
+        // Create line chart
+        LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+        lineChart.setTitle("Sample Data Over Time");
+
+        // Create data series
+        XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        series.setName("Sensor A");
+
+        // Add data points
+        series.getData().add(new XYChart.Data<>(0, 23));
+        series.getData().add(new XYChart.Data<>(1, 14));
+        series.getData().add(new XYChart.Data<>(2, 15));
+        series.getData().add(new XYChart.Data<>(3, 24));
+        series.getData().add(new XYChart.Data<>(4, 34));
+        series.getData().add(new XYChart.Data<>(5, 36));
+
+        lineChart.getData().add(series);
+
+        // Display chart
+        VBox root = new VBox(lineChart);
+        Scene scene = new Scene(root, 600, 400);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        launch();
+    }
+}
+\end{minted}
+
+This example creates a line chart with two numerical axes and plots a single data series. The chart is displayed in a JavaFX \codecmd{Stage} using a \codecmd{VBox} layout.
 
 
 
 
-\subsection{JavaFx \& the Graphical User Interface (GUI)}
+
 
 \subsection{The Integrated Build \& Javadoc}
 
@@ -859,7 +1415,91 @@ git remote add origin https://github.com/yourusername/your-repositoryname
 \newpage
 \section{Software Development}
 
-\subsection{Collaborative Programming \& High Performing Teams}
+\subsection{High Performing Teams}
+
+High-performing teams are built on trust, mutual accountability, commitment to shared goals, and open communication. Patrick Lencioni’s model, \textit{The Five Dysfunctions of a Team} (2002), identifies key behaviours that undermine effective teamwork. By recognising and addressing these dysfunctions, teams can establish healthier dynamics and enhance performance.
+
+\subsubsection{What is a Team?}
+
+A team is more than a group of individuals working together. According to Katzenbach and Smith:
+\textit{\begin{quote}
+“A team is a small number of people with complementary skills who are committed to a common purpose, set of performance goals, and an agreed approach for which they hold themselves mutually accountable.”
+\end{quote}}
+
+This definition highlights the importance of shared goals, accountability, and coordinated effort in building successful teams.
+
+\subsubsection{Absence of Trust}
+
+Trust is foundational to collaboration. A lack of trust often arises from the desire to protect one’s ego or to avoid appearing vulnerable, weak, or uninformed.
+
+\textbf{Strategies to build trust:}
+\begin{itemize}
+    \item Encourage sharing of personal background and experience in a safe, respectful environment.
+    \item Model vulnerability and openness to foster psychological safety.
+    \item Promote mutual respect and demonstrate empathy in team interactions.
+\end{itemize}
+
+\subsubsection{Fear of Conflict}
+
+Constructive conflict enables better decision-making and innovation. Avoiding conflict may stem from lack of psychological safety or fear of interpersonal tension.
+
+\textbf{Strategies to encourage constructive conflict:}
+\begin{itemize}
+    \item Focus on the issue rather than the individual.
+    \item Seek to understand different perspectives genuinely.
+    \item Use calm, respectful language, and maintain composure.
+    \item Set “productive debate” as a team norm early in group formation.
+\end{itemize}
+
+\subsubsection{Lack of Commitment}
+
+Commitment falters when team members feel excluded from decision-making or when objectives are unclear.
+
+\vspace{1em}
+\textbf{Strategies to strengthen commitment:}
+\begin{itemize}
+    \item Ensure all voices are heard and considered before decisions are finalised.
+    \item Record decisions and agreed actions clearly at every meeting.
+    \item Adopt open conflict resolution as a team standard to prevent avoidance.
+    \item Encourage individuals to confirm their agreement with action items explicitly.
+\end{itemize}
+
+\subsubsection{Avoidance of Accountability}
+
+Accountability can be neglected when it is not embedded in team culture. A reluctance to challenge peers or address missed obligations undermines group standards.
+
+\vspace{1em}
+\textbf{Strategies to encourage accountability:}
+\begin{itemize}
+    \item Establish accountability as a team norm from the outset.
+    \item Communicate openly about progress and flag issues early.
+    \item Reinforce responsibility by following up on deadlines and actions.
+    \item Welcome constructive feedback and express appreciation when held accountable.
+\end{itemize}
+
+\subsubsection{Inattention to Results}
+
+When individual priorities take precedence over team outcomes, collective performance suffers. A results-focused mindset requires clarity and continuous reinforcement.
+
+\vspace{1em}
+\textbf{Strategies to focus on results:}
+\begin{itemize}
+    \item Clearly define team deliverables and standards at the beginning.
+    \item Regularly revisit goals and progress in meetings.
+    \item Monitor outcomes continuously and adjust actions as needed.
+\end{itemize}
+
+\subsubsection{Establishing Team Norms and Practices}
+
+To foster a high-performing team environment, consider implementing the following:
+
+\begin{itemize}
+    \item Set clear deliverables, roles, and expectations for all members.
+    \item Define communication protocols—who communicates, how, and when.
+    \item Conduct structured meetings with agendas, action points, and follow-ups.
+    \item Be transparent, goal-oriented, and consistent with deadlines.
+    \item Encourage mutual support, open feedback, and shared responsibility.
+\end{itemize}
 
 \subsection{Agile \& Sprint Planning}
 
