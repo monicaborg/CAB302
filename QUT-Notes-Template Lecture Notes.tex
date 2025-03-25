@@ -3,50 +3,15 @@
 % Additional packages & macros
 \usepackage[a4paper, margin=1in]{geometry}
 \usepackage{fancyhdr}
-\pagestyle{fancy} % Enable fancy headers and footers
-\usepackage{listings}
+\pagestyle{fancy}
+\usepackage{minted}
 \usepackage{xcolor}
-
-% Define colours
-\definecolor{purple}{HTML}{C678DD}  % For method names like 'main'
-\definecolor{green}{HTML}{98C379}   % For class names like 'HelloWorld'
-\definecolor{blue}{HTML}{61AFEF}    % For types like String, System
-\definecolor{lighttext}{HTML}{ABB2BF}
-\definecolor{gray}{HTML}{5C6370}
-
-% Java syntax highlighting
-\lstdefinelanguage{Java}{
-  morekeywords={abstract, assert, boolean, break, byte, case, catch, char, class, const,
-    continue, default, do, double, else, enum, extends, final, finally, float, for,
-    goto, if, implements, import, instanceof, int, interface, long, native, new,
-    package, private, protected, public, return, short, static, strictfp, super,
-    switch, synchronized, this, throw, throws, transient, try, void, volatile, while},
-  sensitive=true,
-  morecomment=[l]//,
-  morecomment=[s]{/*}{*/},
-  morestring=[b]",
-}
-
-% Styling
-\lstset{
-  language=Java,
-  basicstyle=\ttfamily\small\color{black},             % Default text (args, .out, etc.)
-  keywordstyle=\color{blue}\bfseries,                  % Keywords (public, static, class)
-  commentstyle=\color{gray}\itshape,                   % Comments (grey)
-  stringstyle=\color{green},                           % Strings ("Hello, World!")
-  emph={HelloWorld}, emphstyle=\color{green},          % Class name
-  emph={[2]main}, emphstyle={[2]\color{purple}},        % Method name
-  emph={[3]String, System}, emphstyle={[3]\color{blue}},% Java standard classes
-  numbers=left,                                         % ← Line numbers are back
-  numberstyle=\tiny\color{gray},                       % Line number style (grey + small)
-  numbersep=5pt,
-  showstringspaces=false,
-  tabsize=2,
-  breaklines=true,
-  frame=none,
-  captionpos=b
-}
-
+\usemintedstyle{pastie}
+\usepackage{booktabs}     % For cleaner tables (\toprule, \midrule, \bottomrule)
+\usepackage{amsmath}      % General maths support
+\usepackage{amssymb}      % Additional maths symbols
+\usepackage{graphicx}     % If you're including any images
+\usepackage{hyperref}     % For clickable links (if needed)
 
 % Header and footer
 % ! Unit name
@@ -82,29 +47,214 @@
 \tableofcontents
 \newpage
 %
-\section{Object Oriented Programming in Java}
+\section{Object Oriented Programming with Java}
 
 \subsection{Java}
 Java is a high-level, class-based, object-oriented programming language that is platform-independent and widely used for developing applications across desktop, web, and mobile environments. It follows the syntax and structure of the C-family of languages, making it familiar to those with experience in C or C\#.
 
-A basic Java program includes a class definition and a \texttt{main} method, which serves as the entry point of execution. For example, a simple program that prints ``Hello, world!'' to the console would be written as:
+Originally created in the 1990s at Sun Microsystems, Java was designed to be platform-independent and architecture-neutral, enabling code to run consistently across various systems (regardless of endianness\footnote{Endianness, in computing, refers to the order in which bytes within a word of digital data are stored in computer memory or transmitted over a network. It can be either big-endian (most significant byte first) or little-endian (least significant byte first)}). It is fully object-oriented, supports automatic garbage collection for robustness, and was envisioned as a programming language for the Internet age. Java became open source in 2006 and has since been widely adopted as the primary platform for Android development.
 
-\begin{lstlisting}
+A basic Java program includes a class definition and a \texttt{main} method, which serves as the entry point of execution. For example, a simple program that prints \texttt{Hello, world!} to the console would be written as:
+
+\begin{minted}[fontsize=\small, linenos, breaklines]{java}
 public class HelloWorld {
     public static void main(String[] args) {
         System.out.println("Hello, world!");
     }
 }
-\end{lstlisting}
+\end{minted}
 
-\subsubsection{}
-\subsection{Git}
+\subsection{Primitive Data Types in Java}
 
-\subsection{Graphical User Interface (GUI)}
+Java provides a set of built-in primitive data types for representing simple values. These types are not objects and serve as the most basic building blocks for data manipulation:
 
-\subsection{The Integrated Build & Javadoc}
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Type} & \textbf{Size} & \textbf{Description} \\
+\midrule
+\texttt{byte}   & 8-bit   & Signed two’s complement integer. Range: \texttt{-128} to \texttt{127} \\
+\texttt{short}  & 16-bit  & Signed two’s complement integer. Range: \texttt{-32,768} to \texttt{32,767} \\
+\texttt{int}    & 32-bit  & Signed two’s complement integer. Range: \texttt{-2,147,483,648} to \texttt{2,147,483,647} \\
+\texttt{long}   & 64-bit  & Signed two’s complement integer. Range: \texttt{-9,223,372,036,854,775,808} \\
+                &         & to \texttt{9,223,372,036,854,775,807} \\
+\texttt{float}  & 32-bit  & IEEE 754 single-precision floating point \\
+\texttt{double} & 64-bit  & IEEE 754 double-precision floating point \\
+\texttt{boolean}& 1-bit*  & Represents \texttt{true} or \texttt{false} \\
+\texttt{char}   & 16-bit  & A single Unicode character \\
+\bottomrule
+\end{tabular}
+\end{table}
+\textit{*Note: The size of a \texttt{boolean} is not fixed and depends on the JVM implementation. It is often 1 byte but not guaranteed.}
 
-\subsection{Refactoring & Design Patterns}
+\subsection{Java Operators}
+
+\subsubsection{Arithmetic Operators}
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Operator} & \textbf{Name} & \textbf{Example} \\
+\midrule
+\texttt{+}  & Addition       & \texttt{x + y} \\
+\texttt{-}  & Subtraction    & \texttt{x - y} \\
+\texttt{*}  & Multiplication & \texttt{x * y} \\
+\texttt{/}  & Division       & \texttt{x / y} \\
+\texttt{\%} & Modulus        & \texttt{x \% y} \\
+\texttt{++} & Increment      & \texttt{++x} \\
+\texttt{--} & Decrement      & \texttt{--x} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{1em}
+\subsubsection{Assignment Operators}
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Operator} & \textbf{Example} & \textbf{Equivalent To} \\
+\midrule
+\texttt{=}    & \texttt{x = 5}    & \texttt{x = 5} \\
+\texttt{+=}   & \texttt{x += 3}   & \texttt{x = x + 3} \\
+\texttt{-=}   & \texttt{x -= 3}   & \texttt{x = x - 3} \\
+\texttt{*=}   & \texttt{x *= 3}   & \texttt{x = x * 3} \\
+\texttt{/=}   & \texttt{x /= 3}   & \texttt{x = x / 3} \\
+\texttt{\%=}  & \texttt{x \%= 3}  & \texttt{x = x \% 3} \\
+\texttt{\&=}  & \texttt{x \&= 3}  & \texttt{x = x \& 3} \\
+\texttt{|=}   & \texttt{x |= 3}   & \texttt{x = x | 3} \\
+\texttt{\^=}  & \texttt{x \^= 3}  & \texttt{x = x \^ 3} \\
+\texttt{>>=}  & \texttt{x >>= 3}  & \texttt{x = x >> 3} \\
+\texttt{<<=}  & \texttt{x <<= 3}  & \texttt{x = x << 3} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{1em}
+\subsubsection{Logical Operators}
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Operator} & \textbf{Name} & \textbf{Example} \\
+\midrule
+\texttt{\&\&} & Logical AND & \texttt{x < 5 \&\& x < 10} \\
+\texttt{||}  & Logical OR  & \texttt{x < 5 || x < 4} \\
+\texttt{!}   & Logical NOT & \texttt{!(x < 5 \&\& x < 10)} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{1em}
+\subsubsection{Comparison Operators}
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Operator} & \textbf{Name} & \textbf{Example} \\
+\midrule
+\texttt{==} & Equal to                 & \texttt{x == y} \\
+\texttt{!=} & Not equal                & \texttt{x != y} \\
+\texttt{>}  & Greater than             & \texttt{x > y} \\
+\texttt{<}  & Less than                & \texttt{x < y} \\
+\texttt{>=} & Greater than or equal to & \texttt{x >= y} \\
+\texttt{<=} & Less than or equal to    & \texttt{x <= y} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection{Operator Overloading}
+
+Unlike some other languages like C++ or Python, Java does \textbf{not support operator overloading}. This means you cannot redefine the behaviour of standard operators (e.g., \texttt{+}, \texttt{-}) for user-defined types such as classes.
+
+\subsection{Object-Oriented Principles in Java}
+
+Java is a fully object-oriented language, and its design is built around four key principles:
+
+\begin{itemize}
+    \item \textbf{Encapsulation} – Combines data (fields) and behaviour (methods) into a single unit called a class. Access to data is controlled using access modifiers (e.g., \texttt{private}, \texttt{public}) to protect internal state.
+    
+    \item \textbf{Abstraction} – Hides internal implementation details and exposes only essential functionality through interfaces or abstract classes. This simplifies code usage and improves maintainability.
+    
+    \item \textbf{Inheritance} – Allows a new class (subclass) to inherit properties and behaviours from an existing class (superclass), enabling code reuse and logical hierarchy using the \texttt{extends} keyword.
+    
+    \item \textbf{Polymorphism} – Enables the same method call to behave differently depending on the object type at runtime. Achieved through method overriding and interface implementation.
+\end{itemize}
+
+\subsubsection{Everything's an Object}
+
+In Java, \texttt{Object} is the root of the class hierarchy. Every class—either directly or indirectly—inherits from \texttt{java.lang.Object}, meaning all Java objects (including arrays) have access to its methods.
+
+\begin{itemize}
+    \item \texttt{Object clone()} – Creates and returns a shallow copy of the object (must implement \texttt{Cloneable}).
+    \item \texttt{boolean equals(Object obj)} – Checks if another object is "equal to" this one.
+    \item \texttt{int hashCode()} – Returns a hash code used in hash-based collections like \texttt{HashMap}.
+    \item \texttt{String toString()} – Returns a string representation of the object (default: class name + hash).
+    \item \texttt{Class<?> getClass()} – Returns the runtime class of the object.
+    \item \texttt{void finalize()} – Called by the garbage collector before object destruction (deprecated in recent versions).
+    \item \texttt{void wait()}, \texttt{wait(long)}, \texttt{wait(long, int)} – Causes a thread to wait until notified.
+    \item \texttt{void notify()}, \texttt{void notifyAll()} – Wakes one or all threads waiting on the object’s monitor.
+\end{itemize}
+
+These methods form the foundation of Java’s object model, thread synchronisation, and identity/behaviour of all class instances.
+
+\smallskip
+\textit{See:} \href{https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html}{\texttt{docs.oracle.com/javase/8/docs/api/java/lang/Object.html}}
+
+\subsection{Using Interfaces in Java for OOP}
+
+In Java, an \textbf{interface} defines a contract of method signatures that a class can implement. Interfaces support abstraction by separating what a class does from how it does it, promoting loose coupling and flexibility in object-oriented design.
+
+Interfaces can contain:
+\begin{itemize}
+    \item Abstract method declarations (implicitly \texttt{public abstract})
+    \item \texttt{default} methods (with implementation)
+    \item \texttt{static} methods
+    \item Constants (\texttt{public static final})
+\end{itemize}
+
+A class implements an interface using the \texttt{implements} keyword and must provide concrete implementations for all abstract methods.
+
+\subsubsection*{Example: Interface and Implementation}
+
+\begin{minted}[fontsize=\small, linenos, breaklines]{java}
+interface Animal {
+    void makeSound(); // abstract method
+}
+
+class Dog implements Animal {
+    public void makeSound() {
+        System.out.println("Woof!");
+    }
+}
+
+class Cat implements Animal {
+    public void makeSound() {
+        System.out.println("Meow!");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal a1 = new Dog();
+        Animal a2 = new Cat();
+        a1.makeSound(); // Woof!
+        a2.makeSound(); // Meow!
+    }
+}
+\end{minted}
+
+This example shows \textbf{polymorphism} through interface references. Both \texttt{Dog} and \texttt{Cat} classes implement \texttt{Animal}, allowing us to treat them uniformly while invoking behaviour defined in their respective implementations.
+
+\medskip
+\textit{Interfaces are ideal when you want multiple unrelated classes to share a common behaviour without enforcing a class hierarchy.}
+
+
+
+\subsection{Git Fundamentals}
+
+\subsection{JavaFx \& the Graphical User Interface (GUI)}
+
+\subsection{The Integrated Build \& Javadoc}
+
+\subsection{Refactoring \& Design Patterns}
 
 \subsection{Threading and APIs}
 
@@ -112,9 +262,9 @@ public class HelloWorld {
 \newpage
 \section{Software Development}
 
-\subsection{Collaborative Programming & High Performing Teams}
+\subsection{Collaborative Programming \& High Performing Teams}
 
-\subsection{Agile & Sprint Planning}
+\subsection{Agile \& Sprint Planning}
 
 \subsection{Persistence}
 
