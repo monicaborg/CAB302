@@ -19,6 +19,8 @@
 \definecolor{mintgreen}{rgb}{0.95,1,0.95} % soft green to match Pastie
 \newcommand{\codecmd}[1]{\textcolor[rgb]{0,0.5,0}{\texttt{#1}}}
 \usepackage{float}
+\usepackage{tabularx}
+
 
 % Header and footer
 % ! Unit name
@@ -56,7 +58,7 @@
 %
 \section{Object Oriented Programming with Java}
 
-\subsection{Java}
+\subsection{Introduction to Java}
 Java is a high-level, class-based, object-oriented programming language that is platform-independent and widely used for developing applications across desktop, web, and mobile environments. It follows the syntax and structure of the C-family of languages, making it familiar to developers with experience in C or C\#.
 
 Originally created in the 1990s at Sun Microsystems, Java was designed to be platform-independent and architecture-neutral, enabling code to run consistently across various systems (regardless of endianness\footnote{Endianness, in computing, refers to the order in which bytes within a word of digital data are stored in computer memory or transmitted over a network. It can be either big-endian (most significant byte first) or little-endian (least significant byte first)}). Java supports automatic garbage collection, offers robust memory management, and was developed with the internet in mind. Since becoming open source in 2006, it has served as the primary platform for Android development.
@@ -735,6 +737,12 @@ These platforms typically provide web interfaces, issue tracking, pull requests,
 \end{tikzpicture}
 \end{center}
 
+\noindent
+The diagram illustrates a sequence of branching and merging operations in a Git repository. Development begins on the \codecmd{main} branch, with regular commits forming a linear history. A new branch called \codecmd{Feature A} is created from commit 2, and several commits are made on this feature branch. From one of these commits on Feature A, a sub-branch \codecmd{Feature A-1} is created to explore a smaller task or fix, which is later merged back into Feature A. After completing all work on Feature A, it is merged into the main branch at commit 8. Separately, another branch called \codecmd{Feature B} is created from commit 3, where a couple of commits are made before it diverges. 
+
+\vspace{1em}
+\textit{\textbf{Note}: Each node in the diagram represents an individual commit, helping visualise the history and integration of branches over time.
+}
 \subsubsection{Local and Remote Repositories}
 
 Version control in Git distinguishes between two primary types of repositories: local and remote. Understanding their relationship is fundamental to managing workflow and collaboration effectively.
@@ -814,9 +822,9 @@ A pull request (PR) is a mechanism provided by platforms such as GitHub to propo
 The typical workflow involves the following steps:
 
 \begin{enumerate}
-    \item A contributor creates a new branch from the \texttt{main} branch or another base branch.
+    \item A contributor creates a new branch from the \codecmd{main} branch or another base branch.
     \item Commits are made to this branch, encapsulating a single feature, bug fix, or improvement.
-    \item Once complete, a pull request is opened on the GitHub repository, targeting the original branch (usually \texttt{main}).
+    \item Once complete, a pull request is opened on the GitHub repository, targeting the original branch (usually \codecmd{main}).
     \item Reviewers can examine the changes, leave comments, request revisions, and ultimately approve or reject the changes.
     \item Once approved, the pull request is merged, integrating the proposed changes into the base branch.
 \end{enumerate}
@@ -1134,6 +1142,13 @@ public void deleteContact() {
 \textit{\textbf{Note}: To persist data between sessions, the application may be extended with file I/O or a database backend in future implementations.}
 
 \subsection{JavaFX Controls}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.9\linewidth]{java-fx-fields.png}
+\caption{JavaFX Control Types}
+\label{fig:prototype-fidelity}
+\end{figure}
 
 \subsubsection{Button}
 
@@ -1498,7 +1513,7 @@ Prototyping in software and interface design is a crucial step in conceptualisin
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.9\linewidth]{11.jpg}
+\includegraphics[width=0.9\linewidth]{fidelity.jpg}
 \caption{Example of different prototype fidelity levels}
 \label{fig:prototype-fidelity}
 \end{figure}
@@ -1620,23 +1635,135 @@ The primary purpose of MVC is to achieve \textbf{separation of concerns}, which 
     \item \textbf{Reusability} – Components can be reused across different applications.
 \end{itemize}
 
+\subsubsection{To-Do List Examples in MVC}
 
- 
+\paragraph{Standard Flow (Display Request)}
+\begin{enumerate}
+    \item User requests to view To-Do Lists.
+    \item Controller fetches To-Do list data from the Model.
+    \item Controller fetches a display (e.g. a Scene) from the View.
+    \item Controller presents the UI to the User.
+\end{enumerate}
+
+\paragraph{Alternate Flow (View Handles Display)}
+\begin{enumerate}
+    \item User requests to view To-Do Lists.
+    \item Controller fetches To-Do list data from the Model.
+    \item Controller requests a View, and it is displayed to the User.
+\end{enumerate}
+
+\paragraph{User Input (Data Update)}
+\begin{enumerate}
+    \item User presses the “Create To-do List” button.
+    \item Controller tells the Model to update the data.
+    \item View observes the change and updates the display.
+\end{enumerate}
+
+\textit{* User automatically sees changes to the stage.}
 
 
+\subsection{Accessibility in Design}
 
+Designing for accessibility ensures your application can be used by as many people as possible, regardless of ability or impairment. Accessibility should be considered from the beginning of the design process, not as an afterthought.
 
+\subsubsection{Introduction to Accessibility}
+\begin{itemize}
+  \item Digital accessibility extends the real-world principles of inclusive design to software and applications.
+  \item It is a misconception that accessibility should be added later—accessibility must be considered during early design and development.
+\end{itemize}
 
+\subsubsection{Colour Vision Deficiency}
+\begin{itemize}
+  \item Colour blindness affects approximately 8\% of men and 0.5\% of women.
+  \item It results from missing red, green, or blue cones in the eye, leading to difficulty distinguishing those colours.
+  \item Red-green colour blindness is the most common and problematic, especially with common red-green indicators like traffic lights.
+\end{itemize}
 
+\subsubsection*{Types of Colour Blindness:}
+\begin{itemize}
+  \item Protanopia – Red-green blindness (~1.3\%)
+  \item Deuteranopia – Red-green blindness (~1\%)
+  \item Tritanopia – Blue-yellow blindness (~0.0001\%)
+\end{itemize}
 
+\subsubsection*{Types of Colour Weakness:}
+\begin{itemize}
+  \item Protanomaly – Red-green weakness (~1.3\%)
+  \item Deuteranomaly – Red-green weakness (~5\%)
+\end{itemize}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{types-cb.png}
+    \caption{The varying colours those with red-green, blue-yellow and complete colour blindness seen against the normal vision wheel}
+    \label{fig:your-label}
+\end{figure}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{contrast.png}
+    \caption{Contrast Ratio Examples}
+    \label{fig:your-label}
+\end{figure}
 
+\subsubsection{Colour Usage Guidelines}
+\begin{itemize}
+  \item Never use colour as the only method to convey information.
+  \item Use shape, texture, or labels to support visual cues:
+    \begin{itemize}
+      \item Line graphs: Use dotted or dashed lines.
+      \item Bar charts: Use distinct fill textures.
+      \item Forms: Use asterisks to mark required fields.
+    \end{itemize}
+  \item Avoid red-green gradients; blue-red is a better alternative.
+  \item Test your design using colour-blindness simulators like:\newline\url{https://daltonlens.org/colorblindness-simulator}
+  \item Use accessibility checkers like:\newline\url{https://color.adobe.com/create/color-accessibility}
+\end{itemize}
 
+\subsubsection{Font Selection and Readability}
+\begin{itemize}
+  \item Use clear, sans-serif fonts (e.g. Arial, Helvetica, Verdana).
+  \item Choose scalable font sizes appropriate for high-DPI displays.
+  \item Ensure text contrast ratios meet minimum standards:
+    \begin{itemize}
+      \item Headers: 5:1 contrast ratio
+      \item Body text: 7:1 contrast ratio
+    \end{itemize}
+\end{itemize}
 
+\subsubsection{Keyboard Navigation}
+\begin{itemize}
+  \item Ensure full functionality using only a keyboard.
+  \item Support one-handed operation with standard navigation controls.
+  \item Provide intuitive keyboard shortcuts for frequent actions.
+  \item Use standard patterns: arrow keys, tab navigation, cancel actions, focus indicators.
+\end{itemize}
 
+\subsubsection{Error Feedback}
+\begin{itemize}
+  \item Show clear error messages—state what went wrong and where.
+  \item Prevent errors through smart defaults and proactive input validation.
+  \item Avoid vague system-level errors; be user-friendly.
+\end{itemize}
 
+\begin{minted}[fontsize=\small, linenos]{java}
+public static void main(String[] args) {
+    try {
+        RunComplexApplicationLogic();
+    } catch (Exception e) {
+        System.out.println("An error occurred!");
+        e.printStackTrace();
+    }
+}
+// Bad Design! Handle specific exceptions and show helpful messages.
+\end{minted}
 
+\subsubsection{Data Validation}
+\begin{itemize}
+  \item Constrain input fields to accept valid data only (e.g., no letters in phone fields).
+  \item Highlight invalid fields with clear visual indicators.
+  \item Clearly label required fields.
+\end{itemize}
 
 \subsection{The Integrated Build \& Javadoc}
 
@@ -1734,13 +1861,906 @@ To foster a high-performing team environment, consider implementing the followin
     \item Encourage mutual support, open feedback, and shared responsibility.
 \end{itemize}
 
-\subsection{Agile \& Sprint Planning}
+\subsection{Agile}
+
+\subsubsection{Background: The Waterfall Model}
+The Waterfall model is a traditional approach to managing the software development lifecycle. It was widely used until the 2000s and 2010s, when Agile methodologies began gaining popularity. In Waterfall, development progresses through strict sequential phases, where each phase begins only after the previous one is complete. Projects using this model are typically well-defined from the outset, with a detailed specification outlining the final deliverable.
+
+\begin{center}
+\resizebox{\textwidth}{!}{
+\begin{tikzpicture}[
+  node distance=1.2cm and 1.5cm,
+  every node/.style={rectangle, draw, minimum width=3cm, minimum height=1cm, fill=gray!10},
+  >=latex
+]
+
+\node (req) {Requirements};
+\node[right=of req] (des) {Design};
+\node[right=of des] (dev) {Development};
+\node[right=of dev] (test) {Testing};
+\node[right=of test] (deploy) {Deployment};
+\node[right=of deploy] (maint) {Maintenance};
+
+\draw[->] (req) -- (des);
+\draw[->] (des) -- (dev);
+\draw[->] (dev) -- (test);
+\draw[->] (test) -- (deploy);
+\draw[->] (deploy) -- (maint);
+
+\end{tikzpicture}
+}
+\end{center}
+
+
+\subsubsection*{Challenges of the Waterfall Model}
+The Waterfall model faces several limitations in modern software development. Projects tend to progress slowly due to the absence of iterative deliverables. The model is also inflexible to change—adjustments to requirements often lead to significant delays and increased costs. Additionally, testing occurs only at the end of the development cycle, making it difficult to detect design issues early.
+
+\subsubsection{Introduction of Agile Methodologies}
+Agile methodologies were introduced in the 2001 Agile Manifesto to address the limitations of the Waterfall approach. They promote flexibility and iterative delivery while focusing on team collaboration, adaptability, and the continuous release of working software.
+
+\vspace{1em} 
+\textbf{The Four Key Values of the Agile Manifesto:}
+\begin{enumerate}
+  \item Individuals and interactions over processes and tools
+  \item Working software over comprehensive documentation
+  \item Customer collaboration over contract negotiation
+  \item Responding to change over following a plan
+\end{enumerate}
+
+\subsubsection{Agile Manifesto Principles}
+Agile places emphasis on delivering valuable software early and continuously. It encourages daily collaboration between businesspeople and developers and empowers self-organising teams to produce the best outcomes. Working software is considered the primary measure of progress. A core principle is simplicity—the art of maximising the amount of work not done.
+
+
+\subsubsection{Agile in a Nutshell}
+\begin{center}
+\begin{tabularx}{\textwidth}{>{\bfseries}l X}
+\toprule
+Aspect & \textbf{Description} \\
+\midrule
+Requirements & Gather what your clients want. \\
+Documentation & Record requirements clearly. \\
+Prioritisation & Focus on critical tasks first. \\
+Estimation & Evaluate how long each task will take. \\
+Incremental Releases & Start with high-priority features. \\
+Flexibility & Design mechanisms for adapting to change. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsubsection{Agile Methodology Implementations}
+\begin{center}
+\begin{tabularx}{\textwidth}{>{\bfseries}l X}
+\toprule
+Methodology & \textbf{Description} \\
+\midrule
+Scrum & Focuses on iterative sprints and team roles. \\
+Kanban & Visualises workflow and limits work in progress. \\
+Extreme Programming (XP) & Emphasises frequent releases and test-driven development. \\
+Lean Software Development & Maximises value while minimising waste. \\
+Feature-Driven Development (FDD) & Plans and builds around specific user features. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\noindent\textit{\textbf{Note}: This unit will focus primarily on the Scrum methodology.}
+
+\subsection{Sprint Planning}
+\subsubsection{Kanban Workflow}
+
+Kanban is a visual workflow management method where tasks are represented by cards that move from left to right across columns that represent stages of work. Common stages in a Kanban board include \textbf{Backlog}, \textbf{Ready}, \textbf{Coding}, \textbf{Testing}, \textbf{Approval}, and \textbf{Done}. As work progresses, cards are moved between these columns to reflect their current state.
+
+A key feature of Kanban is the use of \textbf{Work-in-Progress (WIP) Limits}, which restrict how many tasks can be in progress at each stage. This prevents overload, encourages focus, and helps maintain a steady workflow.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{kanban.jpg}
+    \caption{Example of a Kanban Board}
+    \label{fig:kanban}
+\end{figure}
+
+\subsubsection{Scrum}
+
+Scrum is the most widely adopted framework for implementing Agile methodology. While it can appear intimidating at first due to its specific terminology—such as \textbf{artifacts}, \textbf{events}, and \textbf{roles}—it has a strong track record of success in both small teams and large-scale organisations. Major companies like Spotify, Salesforce, Adobe, and Microsoft have all reported measurable improvements in productivity and team collaboration as a result of adopting Scrum.
+
+The team maintains a list of all required tasks for the project, known as the \textbf{project backlog}. Development work is divided into short iterations called \textbf{sprints}, usually lasting 2–4 weeks. Each sprint aims to produce a potentially releasable product. At the start of each sprint, the team holds a sprint planning session to determine which backlog tasks will be addressed. During the sprint, developers pull tasks from this list and work on them as needed.
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{scrum.png}
+    \caption{Scrum Framework Overview: Product Backlog}
+    \label{fig:scrum}
+\end{figure}
+
+\subsubsection*{Scrum Roles}
+\begin{center}
+\begin{tabularx}{\textwidth}{>{\bfseries}l X}
+\toprule
+Role & Description \\
+\midrule
+Product Owner & 
+Represents the customer’s interests, defines requirements, writes user stories, and prioritises features. In the absence of a customer, the team assumes this role internally. \\
+\addlinespace
+Scrum Master & 
+Facilitates the Scrum process by supporting the team, removing blockers, and promoting communication. This is not a leadership or management role. \\
+\addlinespace
+Developer & 
+Contributes to sprint and product goals. Self-organises around tasks based on skills. Includes not only coders but also designers, testers, and other specialists. \\
+
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsubsection{Product Backlog}
+
+The \textbf{Product Backlog} is a prioritised list of work that the development team will deliver over the course of the project. It is typically maintained by the product owner and evolves as the project progresses. Items in the backlog are commonly written as \textit{user stories}, which describe features or functionality from the user's perspective. During sprint planning, the development team pulls tasks from the top of the backlog to begin work, ensuring the highest-priority items are completed first.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{backlog.png}
+    \caption{Example of a Product Backlog}
+    \label{fig:product-backlog}
+\end{figure}
+
+\subsubsection{MoSCoW Method}
+
+The \textbf{MoSCoW Method} is a prioritisation framework used in Agile to categorise project requirements into four levels of importance: Must-have, Should-have, Could-have, and Won’t have. It helps teams focus on delivering critical functionality first, while acknowledging less essential features and explicitly deferring non-priorities.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{moscow.png}
+    \caption{MoSCoW Prioritisation Categories}
+    \label{fig:moscow}
+\end{figure}
+
+\subsubsection{User Stories}
+
+A \textbf{user story} is a short, informal description of a desired feature written from the perspective of the user. User stories help teams understand what users need and why, without prescribing exactly how the feature should be implemented. They are usually written in collaboration with the product owner or client, and provide enough detail to allow estimation and testing.
+
+The standard structure for a user story is:
+
+\begin{quote}
+\textit{As a [Role], I want to [do/see/change something] so that [outcome].\\
+Time Estimate: X Units}
+\end{quote}
+
+Time estimates should use abstract units (not hours) to allow flexibility. If tasks take longer than expected, simply reduce the number of units added to the next sprint.
+
+Each story should:
+\begin{itemize}
+  \item Describe functionality from a user's perspective
+  \item Be testable
+  \item Contain enough information for rough estimation
+\end{itemize}
+
+Additionally, each story should define \textbf{acceptance criteria}—specific conditions that must be met for the story to be considered complete. These often follow the format:
+
+\begin{quote}
+\textit{Given [context], when [action], then [expected result]}
+\end{quote}
+
 
 \subsection{Persistence}
 
 \subsection{Test Driven Development}
 
 \subsection{User Testing}
+
+
+
+
+
+
+
+
+% ================================================================================================
+\newpage
+\section{Practicals}
+\subsection{Practical 4}
+
+\subsection{JavaFX Address Book Application Overview}
+
+This practical introduces the structure and function of a simple JavaFX address book application. The program uses Model-View-Controller (MVC) architecture and demonstrates good practices in UI layout, controller logic, and data access abstraction. Below is a summary of each file, its role, and relevant code.
+
+\subsubsection*{File Structure}
+\begin{minted}[fontsize=\small, linenos=false, breaklines]{text}
+com/
+|- cab302/
+   |- cab302project/
+      |- Contact.java           # Model class
+      |- HelloApplication.java  # Main entry
+      |- HelloController.java   # Intro screen logic
+      |- MainController.java    # Address book controller
+      |- MockContactDAO.java    # Fake database
+      |- IContactDAO.java       # Interface for DAO
+      |- hello-view.fxml        # Intro screen UI
+      |- main-view.fxml         # Main view UI
+\end{minted}
+
+
+\subsubsection*{Contact.java}
+Defines a simple model class with ID, name, email, and phone attributes. Includes getters, setters, and a \texttt{getFullName()} method.
+
+\begin{minted}[fontsize=\small, linenos]{java}
+package com.cab302.cab302project;
+
+public class Contact {
+    private int id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+
+    public Contact(String firstName, String lastName, String email, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+}
+\end{minted}
+
+\subsubsection*{HelloApplication.java}
+The entry point for the JavaFX application. Loads the initial FXML layout and sets up the window.
+
+\begin{minted}[fontsize=\small, linenos]{java}
+package com.cab302.cab302project;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import java.io.IOException;
+
+/**
+ * Entry point for the JavaFX Address Book application.
+ * Launches the initial "Terms and Conditions" screen.
+ */
+public class HelloApplication extends Application {
+
+    // Constants defining the window title and default size
+    public static final String TITLE = "Address Book";
+    public static final int WIDTH = 640;
+    public static final int HEIGHT = 360;
+
+    /**
+     * The main entry point for JavaFX applications.
+     * Called after launch() is invoked.
+     *
+     * @param stage The primary stage (i.e., window) for this application.
+     * @throws IOException If the FXML file cannot be loaded.
+     */
+    @Override
+    public void start(Stage stage) throws IOException {
+        // Load the initial FXML layout (hello-view.fxml)
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+
+        // Create the scene using the loaded layout and set its dimensions
+        Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
+
+        // Set the title of the window
+        stage.setTitle(TITLE);
+
+        // Set the scene on the primary stage
+        stage.setScene(scene);
+
+        // Display the stage
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        launch();  // Triggers the JavaFX application lifecycle
+    }
+}
+\end{minted}
+
+\subsubsection*{HelloController.java}
+Controls the terms and conditions screen. Displays text, checks if the user agrees, and moves to the main view.
+
+\begin{minted}[fontsize=\small, linenos]{java}
+// Package declaration for this JavaFX controller
+package com.cab302.cab302project;
+
+// Import JavaFX components used in this controller
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import java.io.IOException;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+
+// Controller class for the hello-view.fxml screen
+public class HelloController {
+
+    // Label to show the welcome message (e.g., after clicking "Hello!")
+    @FXML
+    private Label welcomeText;
+
+    // Text area to show terms and conditions
+    @FXML
+    private TextArea termsAndConditions;
+
+    // This method is called automatically after the FXML has loaded
+    @FXML
+    public void initialize() {
+        // Set the terms and conditions text inside the read-only text area
+        termsAndConditions.setText("""
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Eget dolor morbi non arcu risus. Quis lectus nulla at volutpat diam
+                ut venenatis tellus in. Feugiat in fermentum posuere urna nec tincidunt
+                praesent semper. Turpis tincidunt id aliquet risus feugiat in.
+                Libero volutpat sed cras ornare. Facilisi morbi tempus iaculis urna.
+                Bibendum est ultricies integer quis auctor. Eu augue ut lectus arcu.
+                Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu.
+                Gravida neque convallis a cras. Elit ut aliquam purus sit.
+                Suspendisse ultrices gravida dictum fusce ut placerat.
+                Integer feugiat scelerisque varius morbi enim nunc.
+                Amet justo donec enim diam vulputate ut pharetra.
+                Sapien pellentesque habitant morbi tristique.
+                Lorem sed risus ultricies tristique nulla aliquet.
+                Elementum nibh tellus molestie nunc non blandit massa.""");
+    }
+
+    // Handles the "Hello!" button click
+    @FXML
+    protected void onHelloButtonClick() {
+        // Display a welcome message in the label
+        welcomeText.setText("Welcome to the Address Book Application!");
+    }
+
+    // Checkbox to agree to terms before proceeding
+    @FXML
+    private CheckBox agreeCheckBox;
+
+    // "Next" button to move to the main address book
+    @FXML
+    private Button nextButton;
+
+    // Called when the checkbox is clicked
+    @FXML
+    protected void onAgreeCheckBoxClick() {
+        // Enable the "Next" button only if the user has checked the box
+        boolean accepted = agreeCheckBox.isSelected();
+        nextButton.setDisable(!accepted);
+    }
+
+    // Handles the "Next" button click
+    @FXML
+    protected void onNextButtonClick() throws IOException {
+        // Get the current window (stage) from the button
+        Stage stage = (Stage) nextButton.getScene().getWindow();
+
+        // Load the next screen (main-view.fxml) using FXMLLoader
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+
+        // Set the new scene on the stage to switch views
+        stage.setScene(scene);
+    }
+
+    // Unused: potentially for future extensions, or if you plan to show contacts before switching scenes
+    @FXML
+    private ListView<Contact> contactsListView;
+
+    // Data Access Object to manage contact data
+    private IContactDAO contactDAO;
+
+    // Constructor: initialises the DAO with a mock implementation
+    public HelloController() {
+        contactDAO = new MockContactDAO();
+    }
+
+    // Handles the "Cancel" button click
+    @FXML
+    protected void onCancelButtonClick() {
+        // Close the current window (exit the app or dialog)
+        Stage stage = (Stage) nextButton.getScene().getWindow();
+        stage.close();
+    }
+}
+\end{minted}
+
+\subsubsection*{MainController.java}
+Controls the main application interface. Manages the contact list view, form field updates, and CRUD operations triggered by user actions.
+
+\begin{minted}[fontsize=\small, linenos]{java}
+// Package declaration: this class belongs to the com.cab302.cab302project package
+package com.cab302.cab302project;
+
+// Import JavaFX UI components and layout classes
+import javafx.fxml.FXML;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+
+// Import List interface from Java Collections
+import java.util.List;
+
+// MainController is the controller for the main-view.fxml layout
+public class MainController {
+
+    // ListView for displaying contacts
+    @FXML
+    private ListView<Contact> contactsListView;
+
+    // TextFields for editing contact details
+    @FXML
+    private TextField firstNameTextField;
+    @FXML
+    private TextField lastNameTextField;
+    @FXML
+    private TextField emailTextField;
+    @FXML
+    private TextField phoneTextField;
+
+    // Container for the form fields, used to hide/show based on contact availability
+    @FXML
+    private VBox contactContainer;
+
+    // Data Access Object (DAO) for managing contact data
+    private IContactDAO contactDAO;
+
+    // Constructor: initialise the DAO with a mock implementation
+    public MainController() {
+        contactDAO = new MockContactDAO();
+    }
+
+    // Called automatically after the FXML is loaded
+    @FXML
+    public void initialize() {
+        // Set how each cell in the ListView should be displayed
+        contactsListView.setCellFactory(this::renderCell);
+        // Populate the ListView with contact data
+        syncContacts();
+    }
+
+    // Defines how each contact should be displayed in the ListView
+    private ListCell<Contact> renderCell(ListView<Contact> contactListView) {
+        return new ListCell<>() {
+            @Override
+            protected void updateItem(Contact contact, boolean empty) {
+                super.updateItem(contact, empty);
+                if (empty || contact == null || contact.getFullName() == null) {
+                    // If there's no contact to display, clear the cell
+                    setText(null);
+                    setOnMouseClicked(null);
+                } else {
+                    // Display the full name and add click behaviour
+                    setText(contact.getFullName());
+                    setOnMouseClicked(event -> selectContact(contact));
+                }
+            }
+        };
+    }
+
+    // Populates the form fields with data from the selected contact
+    private void selectContact(Contact contact) {
+        contactsListView.getSelectionModel().select(contact); // Programmatically select the contact
+        firstNameTextField.setText(contact.getFirstName());
+        lastNameTextField.setText(contact.getLastName());
+        emailTextField.setText(contact.getEmail());
+        phoneTextField.setText(contact.getPhone());
+    }
+
+    // Clears the form fields (used when there are no contacts)
+    private void clearForm() {
+        firstNameTextField.clear();
+        lastNameTextField.clear();
+        emailTextField.clear();
+        phoneTextField.clear();
+    }
+
+    // Synchronises the ListView with the contact data from the DAO
+    private void syncContacts() {
+        // Store the currently selected contact (if any)
+        Contact currentContact = contactsListView.getSelectionModel().getSelectedItem();
+
+        // Clear the ListView and reload the contacts
+        contactsListView.getItems().clear();
+        List<Contact> contacts = contactDAO.getAllContacts();
+        boolean hasContact = !contacts.isEmpty(); // Check if there are any contacts
+
+        if (hasContact) {
+            // Add all contacts to the ListView
+            contactsListView.getItems().addAll(contacts);
+
+            // Determine which contact to select after reload
+            Contact nextContact = contacts.contains(currentContact) ? currentContact : contacts.get(0);
+            contactsListView.getSelectionModel().select(nextContact);
+            selectContact(nextContact); // Update the form fields with selected contact
+        } else {
+            // If no contacts, clear the form
+            clearForm();
+        }
+
+        // Show or hide the contact form depending on whether any contacts exist
+        contactContainer.setVisible(hasContact);
+    }
+
+    // Called when the "Confirm" button is pressed to save edited contact info
+    @FXML
+    private void onEditConfirm() {
+        Contact selectedContact = contactsListView.getSelectionModel().getSelectedItem();
+        if (selectedContact != null) {
+            // Update the contact’s properties from the form fields
+            selectedContact.setFirstName(firstNameTextField.getText());
+            selectedContact.setLastName(lastNameTextField.getText());
+            selectedContact.setEmail(emailTextField.getText());
+            selectedContact.setPhone(phoneTextField.getText());
+
+            // Save changes and refresh the UI
+            contactDAO.updateContact(selectedContact);
+            syncContacts();
+        }
+    }
+
+    // Called when the "Delete" button is pressed
+    @FXML
+    private void onDelete() {
+        Contact selectedContact = contactsListView.getSelectionModel().getSelectedItem();
+        if (selectedContact != null) {
+            // Remove the contact from the DAO and refresh the UI
+            contactDAO.deleteContact(selectedContact);
+            syncContacts(); // Will clear or re-select appropriately
+        }
+    }
+
+    // Called when the "New" button is pressed to add a new contact
+    @FXML
+    private void onAdd() {
+        // Default placeholder values for a new contact
+        final String DEFAULT_FIRST_NAME = "New";
+        final String DEFAULT_LAST_NAME = "Contact";
+        final String DEFAULT_EMAIL = "";
+        final String DEFAULT_PHONE = "";
+
+        // Create and save the new contact
+        Contact newContact = new Contact(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_EMAIL, DEFAULT_PHONE);
+        contactDAO.addContact(newContact);
+        syncContacts(); // Refresh the list
+
+        // Select the newly created contact and focus on the first name field
+        selectContact(newContact);
+        firstNameTextField.requestFocus();
+    }
+
+    // Called when the "Cancel" button is pressed to discard unsaved edits
+    @FXML
+    private void onCancel() {
+        Contact selectedContact = contactsListView.getSelectionModel().getSelectedItem();
+        if (selectedContact != null) {
+            // Reset the form to the selected contact's saved values
+            selectContact(selectedContact);
+        }
+    }
+}
+\end{minted}
+
+\subsubsection*{IContactDAO.java}
+Defines an interface for performing basic CRUD operations on contact data. This abstraction allows different data source implementations (e.g., database, file, or mock).
+
+\begin{minted}[fontsize=\small, linenos]{java}
+package com.cab302.cab302project;
+
+import java.util.List;
+
+/**
+ * Interface for the Contact Data Access Object that handles
+ * the CRUD operations for the Contact class with the database.
+ */
+public interface IContactDAO {
+    /**
+     * Adds a new contact to the database.
+     * @param contact The contact to add.
+     */
+    public void addContact(Contact contact);
+    /**
+     * Updates an existing contact in the database.
+     * @param contact The contact to update.
+     */
+    public void updateContact(Contact contact);
+    /**
+     * Deletes a contact from the database.
+     * @param contact The contact to delete.
+     */
+    public void deleteContact(Contact contact);
+    /**
+     * Retrieves a contact from the database.
+     * @param id The id of the contact to retrieve.
+     * @return The contact with the given id, or null if not found.
+     */
+    public Contact getContact(int id);
+    /**
+     * Retrieves all contacts from the database.
+     * @return A list of all contacts in the database.
+     */
+    public List<Contact> getAllContacts();
+}
+\end{minted}
+\subsubsection*{MockContactDAO.java}
+Provides a mock implementation of the IContactDAO interface using an in-memory list to simulate a database. Pre-loads a few test contacts for demonstration.
+
+\begin{minted}[fontsize=\small, linenos]{java}
+package com.cab302.cab302project;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * A mock implementation of the IContactDAO interface,
+ * simulating database operations using an in-memory list.
+ */
+public class MockContactDAO implements IContactDAO {
+
+    /**
+     * A static list to act as the in-memory "database" of contacts.
+     */
+    public static final ArrayList<Contact> contacts = new ArrayList<>();
+
+    /**
+     * A static ID counter to simulate auto-incremented primary keys.
+     */
+    private static int autoIncrementedId = 0;
+
+    /**
+     * Constructor for the mock DAO.
+     * Adds a few initial contacts to the contact list.
+     */
+    public MockContactDAO() {
+        addContact(new Contact("John", "Doe", "johndoe@example.com", "0423423423"));
+        addContact(new Contact("Jane", "Doe", "janedoe@example.com", "0423423424"));
+        addContact(new Contact("Jay", "Doe", "jaydoe@example.com", "0423423425"));
+    }
+
+    /**
+     * Adds a contact to the mock database and assigns a unique ID.
+     * @param contact The contact to be added.
+     */
+    @Override
+    public void addContact(Contact contact) {
+        contact.setId(autoIncrementedId);  // Assign a unique ID
+        autoIncrementedId++;               // Increment the ID counter
+        contacts.add(contact);             // Add to the list
+    }
+
+    /**
+     * Updates an existing contact by replacing it in the list.
+     * @param contact The updated contact object.
+     */
+    @Override
+    public void updateContact(Contact contact) {
+        // Search for a matching contact by ID
+        for (int i = 0; i < contacts.size(); i++) {
+            if (contacts.get(i).getId() == contact.getId()) {
+                contacts.set(i, contact);  // Replace with updated contact
+                break;
+            }
+        }
+    }
+
+    /**
+     * Removes a contact from the mock database.
+     * @param contact The contact to be deleted.
+     */
+    @Override
+    public void deleteContact(Contact contact) {
+        contacts.remove(contact);
+    }
+
+    /**
+     * Retrieves a contact by ID.
+     * @param id The ID of the contact to find.
+     * @return The matching contact, or null if not found.
+     */
+    @Override
+    public Contact getContact(int id) {
+        for (Contact contact : contacts) {
+            if (contact.getId() == id) {
+                return contact;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns a copy of the full list of contacts.
+     * @return A new list containing all contacts.
+     */
+    @Override
+    public List<Contact> getAllContacts() {
+        return new ArrayList<>(contacts);  // Return a shallow copy
+    }
+}
+\end{minted}
+\subsubsection*{hello-view.fxml}
+FXML layout for the initial welcome and terms-and-conditions screen. Includes a read-only text area, checkbox to accept terms, and navigation buttons.
+
+\begin{minted}[fontsize=\small, linenos]{java}
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Import necessary JavaFX layout and control classes -->
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.layout.HBox?>
+
+<!--
+    Root container: Vertical box layout (VBox) to stack elements vertically.
+    Controller is mapped to HelloController.java.
+-->
+<VBox alignment="TOP_LEFT" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.cab302.cab302project.HelloController">
+
+    <!-- Add padding inside the VBox -->
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <!-- Introductory label with a welcome message and T&C notice -->
+    <Label text="Welcome to the Address Book Application.
+  You must agree to the following terms and conditions before you can use the application."
+           wrapText="true"/>
+
+    <!-- Text area for displaying the terms and conditions; not editable by the user -->
+    <TextArea fx:id="termsAndConditions"
+              wrapText="true"
+              editable="false"/>
+
+    <!-- Checkbox for user agreement; triggers an event when clicked -->
+    <CheckBox fx:id="agreeCheckBox"
+              text="I agree to the terms and conditions."
+              onAction="#onAgreeCheckBoxClick"/>
+
+    <!-- HBox to align Cancel and Next buttons horizontally on the bottom-right -->
+    <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
+        <!-- Cancel button to close the window -->
+        <Button text="Cancel" onAction="#onCancelButtonClick"/>
+
+        <!-- Next button to proceed; disabled until checkbox is selected -->
+        <Button fx:id="nextButton"
+                text="Next"
+                onAction="#onNextButtonClick"
+                disable="true"/>
+    </HBox>
+
+</VBox>
+\end{minted}
+\subsubsection*{main-view.fxml}
+FXML layout for the contact management interface. Includes a ListView to show contacts, a form for editing, and buttons for CRUD actions.
+
+\begin{minted}[fontsize=\small, linenos]{java}
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Import necessary JavaFX UI components -->
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+
+<!-- Root container: vertical box layout for the entire window -->
+<VBox alignment="TOP_LEFT" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.cab302.cab302project.MainController">
+
+    <!-- Padding around the outer VBox -->
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <!-- Instruction label at the top -->
+    <Label text="Select a contact to view or edit." />
+
+    <!-- Horizontal box to split the UI into two columns: contact list + contact form -->
+    <HBox VBox.vgrow="ALWAYS" spacing="20.0">
+
+        <!-- Left column: contact list and "New" button -->
+        <VBox spacing="10.0">
+            <!-- ListView displays the list of contacts -->
+            <ListView fx:id="contactsListView" />
+
+            <!-- New button (no action assigned here, likely placeholder) -->
+            <Button text="New" maxWidth="Infinity"/>
+        </VBox>
+
+        <!-- Right column: contact form -->
+        <VBox spacing="10.0" prefWidth="400" fx:id="contactContainer">
+            <!-- Instruction label above form -->
+            <Label text="Enter the contact's details below." />
+
+            <!-- Grid layout for form fields -->
+            <GridPane hgap="5.0" vgap="5.0">
+                <!-- Set two columns: label (min width), input field (grows to fill) -->
+                <columnConstraints>
+                    <ColumnConstraints minWidth="70" />
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <!-- Labels for form fields (1st column) -->
+                <Label text="First Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Label text="Last Name:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <Label text="Phone:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+
+                <!-- Text fields for form input (2nd column) -->
+                <TextField fx:id="firstNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="0" maxWidth="Infinity"/>
+                <TextField fx:id="lastNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <TextField fx:id="phoneTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            </GridPane>
+
+            <!-- Button row for contact actions -->
+            <HBox spacing="10.0" alignment="CENTER">
+                <!-- Confirm changes to selected contact -->
+                <Button text="Confirm" onAction="#onEditConfirm"/>
+                <!-- Cancel editing and revert to selected contact -->
+                <Button text="Cancel" onAction="#onCancel"/>
+                <!-- Delete the selected contact -->
+                <Button text="Delete" onAction="#onDelete"/>
+                <!-- Add a new contact -->
+                <Button text="New" onAction="#onAdd" maxWidth="Infinity"/>
+            </HBox>
+        </VBox>
+    </HBox>
+</VBox>
+\end{minted}
 
 
 \end{document}
